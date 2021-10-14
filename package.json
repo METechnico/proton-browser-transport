@@ -1,6 +1,6 @@
 {
   "name": "@bloks/browser-transport",
-  "version": "3.2.1-21",
+  "version": "3.2.1-22",
   "description": "Vanilla JS browser transport for Proton Link",
   "homepage": "https://github.com/protonprotocol/proton-browser-transport",
   "license": "BSD-3-Clause",
