@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import Link, {AnyAction, ChainId, Checksum256} from 'anchor-link'
+import Link, {AnyAction, ChainId, Checksum256} from '@bloks/link'
 import BrowserTransport from './transport'
 
 const appId = 'trans.test'
@@ -11,14 +11,11 @@ const link = new Link({
     transport,
     chains: [
         {
-            chainId: '2a02a0053e5a8cf73a56ba0fda11e4d92e0238a4a2aa74fccf46d5a910746840',
-            nodeUrl: 'https://jungle3.greymass.com',
-        },
-        {
-            chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
-            nodeUrl: 'https://eos.greymass.com',
+            chainId: '384da888112027f0321850a169f737c33e53b388aad48b5adace4bab97f437e0',
+            nodeUrl: 'https://proton.greymass.com',
         },
     ],
+    scheme: 'proton',
 })
 
 async function main() {
@@ -59,7 +56,7 @@ async function main() {
                 data: {
                     from: session.auth.actor,
                     to: 'teamgreymass',
-                    quantity: '0.0001 EOS',
+                    quantity: '0.0001 XPR',
                     memo: 'grey money',
                 },
             },

@@ -10,7 +10,7 @@ import {
     SigningRequest,
 } from '@bloks/link'
 
-import { createQrCode } from '@bloks/qrcode'
+import generateQr from './qrcode'
 
 import {fuel, compareVersion as fuelVersion} from './fuel'
 import styleSelector from './styles'
@@ -288,17 +288,6 @@ export default class BrowserTransport implements LinkTransport {
             })
             this.requestEl.appendChild(buttonEl)
         }
-
-        if (args.subtitle) {
-            let subtitleEl
-            if (typeof args.subtitle === 'string') {
-                subtitleEl = this.createEl({class: 'subtitle', tag: 'span', text: args.subtitle})
-            } else {
-                subtitleEl = args.subtitle
-            }
-            this.requestEl.appendChild(subtitleEl)
-        }
-
         if (args.footnote) {
             const footnoteEl = this.createEl({class: 'footnote', content: args.footnote})
             this.requestEl.appendChild(footnoteEl)
@@ -307,9 +296,8 @@ export default class BrowserTransport implements LinkTransport {
     }
 
     private async displayRequest(request: SigningRequest) {
-        const returnUrl = generateReturnUrl()
-
         const sameDeviceRequest = request.clone()
+        const returnUrl = generateReturnUrl()
         sameDeviceRequest.setInfoKey('same_device', true)
         sameDeviceRequest.setInfoKey('return_path', returnUrl)
 
@@ -321,12 +309,13 @@ export default class BrowserTransport implements LinkTransport {
         const sameDeviceUri = sameDeviceRequest.encode(true, false)
         const crossDeviceUri = request.encode(true, false)
 
-        // Create QR
-        const qrEl = this.createEl({
-            tag: 'img',
-            class: 'qr',
-            src: await createQrCode(crossDeviceUri),
-        })
+        const qrEl = this.createEl({class: 'qr'})
+        try {
+            qrEl.innerHTML = generateQr(crossDeviceUri)
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.warn('Unable to generate QR code', error)
+        }
 
         const svg = qrEl.querySelector('svg')
         if (svg) {
@@ -399,19 +388,21 @@ export default class BrowserTransport implements LinkTransport {
 
         this.showDialog({
             title: 'Scan the QR-Code',
+            subtitle: this.createEl({class: 'subtitle'}),
             footnote,
             content: actionEl,
         })
     }
 
     public async showLoading() {
-        this.prepareStatusEl = this.createEl({
+        const status = this.createEl({
             tag: 'span',
             text: 'Preparing request...',
         })
+        this.prepareStatusEl = status
         this.showDialog({
             title: 'Pending...',
-            subtitle: this.prepareStatusEl.textContent!,
+            subtitle: status,
             type: 'loading',
         })
     }
@@ -471,10 +462,12 @@ export default class BrowserTransport implements LinkTransport {
         // Content subtitle
         let subtitle: string
         if (deviceName && deviceName.length > 0) {
-            subtitle = `Please open on "${deviceName}" to review and sign the transaction.`
+            subtitle = `Please open ${deviceName} to review and sign the transaction.`
         } else {
             subtitle = 'Please review and sign the transaction in the linked wallet.'
         }
+        const infoSubtitle = this.createEl({class: 'subtitle', tag: 'span', text: subtitle})
+        content.appendChild(infoSubtitle)
 
         this.showDialog({
             title: 'Pending...',
@@ -484,13 +477,8 @@ export default class BrowserTransport implements LinkTransport {
         })
 
         if (session.metadata.sameDevice) {
-            // if (session.metadata.launchUrl) {
-            //     window.location.href = session.metadata.launchUrl
-            // } else
-            if (isMobile()) {
-                const scheme = request.getScheme()
-                window.location.href = `${scheme}://link`
-            }
+            const scheme = request.getScheme()
+            window.location.href = `${scheme}://link`
         }
     }
 
@@ -613,7 +601,7 @@ export default class BrowserTransport implements LinkTransport {
 
     public async prepare(request: SigningRequest, session?: LinkSession) {
         this.showLoading()
-        if (!this.fuelEnabled || !session || request.isIdentity() || this.walletType === 'proton') {
+        if (!this.fuelEnabled || !session || request.isIdentity()) {
             // don't attempt to cosign id request or if we don't have a session attached
             return request
         }

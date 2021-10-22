@@ -1,27 +1,27 @@
-# Anchor Link - Browser Transport [![Package Version](https://img.shields.io/npm/v/anchor-link-browser-transport.svg?style=flat-square)](https://www.npmjs.com/package/anchor-link-browser-transport) ![License](https://img.shields.io/npm/l/anchor-link-browser-transport.svg?style=flat-square)
+# Proton Link - Browser Transport [![Package Version](https://img.shields.io/npm/v/proton-browser-transport.svg?style=flat-square)](https://www.npmjs.com/package/proton-browser-transport) ![License](https://img.shields.io/npm/l/proton-browser-transport.svg?style=flat-square)
 
-A transport library for usage of [Anchor Link](https://github.com/greymass/anchor-link) within a web browser environment.
+A transport library for usage of [Proton Link](https://github.com/protonprotocol/proton-link) within a web browser environment.
 
 ## Basic usage
 
-A transport is required for Anchor Link to communicate with clients. In most examples we use the browser transport with no configuration, like so:
+A transport is required for Proton Link to communicate with clients. In most examples we use the browser transport with no configuration, like so:
 
 ```ts
-const transport = new AnchorLinkBrowserTransport()
-const link = new AnchorLink({transport})
+const transport = new ProtonBrowserTransport()
+const link = new ProtonLink({transport})
 ```
 
 Parameters can be passed to the transport during construction as an object, allowing for the following optional changes:
 
 ```ts
-const transport = new AnchorLinkBrowserTransport({
-    /** CSS class prefix, defaults to `anchor-link` */
+const transport = new ProtonBrowserTransport({
+    /** CSS class prefix, defaults to `proton-link` */
     classPrefix: 'my-css-prefix',
     /** Whether to inject CSS styles in the page header, defaults to true. */
     injectStyles: true,
     /** Whether to display request success and error messages, defaults to true */
     requestStatus: false,
-    /** Local storage prefix, defaults to `anchor-link`. */
+    /** Local storage prefix, defaults to `proton-link`. */
     storagePrefix: 'my-localstorage-prefix',
     /**
      * Whether to use Greymass Fuel for low resource accounts, defaults to false.
@@ -32,7 +32,7 @@ const transport = new AnchorLinkBrowserTransport({
     /** Referral account to use for Greymass Fuel. */
     fuelReferrer: 'teamgreymass',
 })
-const link = new AnchorLink({transport})
+const link = new ProtonLink({transport})
 ```
 
 ## Developing

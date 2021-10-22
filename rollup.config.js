@@ -12,7 +12,7 @@ import pkg from './package.json'
 const license = fs.readFileSync('LICENSE').toString('utf-8').trim()
 const banner = `
 /**
- * Anchor Link Browser Transport v${pkg.version}
+ * Proton Browser Transport v${pkg.version}
  * ${pkg.homepage}
  *
  * @license
@@ -62,9 +62,9 @@ export default [
     {
         input: 'src/index.ts',
         output: {
-            globals: {'anchor-link': 'AnchorLink'},
+            globals: {'@bloks/link': 'ProtonLink'},
             banner,
-            name: 'AnchorLinkBrowserTransport',
+            name: 'ProtonBrowserTransport',
             file: pkg.unpkg,
             format: 'iife',
             sourcemap: true,
