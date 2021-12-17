@@ -413,6 +413,7 @@ export default class BrowserTransport implements LinkTransport {
     }
 
     public onRequest(request: SigningRequest, cancel: (reason: string | Error) => void) {
+        this.clearTimers()
         this.activeRequest = request
         this.activeCancel = cancel
         this.displayRequest(request).catch(cancel)
@@ -436,6 +437,7 @@ export default class BrowserTransport implements LinkTransport {
             return
         }
 
+        this.clearTimers()
         this.activeRequest = request
         this.activeCancel = cancel
 
@@ -832,7 +834,7 @@ function isAndroid() {
 }
 
 function isAndroidWebView() {
-    return /wv/.test(navigator.userAgent)
+    return /wv/.test(navigator.userAgent) || /Android.*AppleWebKit/.test(navigator.userAgent);
 }
 
 function isMobile() {
