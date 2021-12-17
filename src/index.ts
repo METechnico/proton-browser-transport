@@ -269,13 +269,13 @@ export default class BrowserTransport implements LinkTransport {
 
         emptyElement(this.requestEl)
 
-        if (!args.hideLogo) {
-            const logoEl = this.createEl({class: 'logo'})
-            if (args.type) {
-                logoEl.classList.add(args.type)
-            }
-            this.requestEl.appendChild(logoEl)
-        }
+        // if (!args.hideLogo) {
+        //     const logoEl = this.createEl({class: 'logo'})
+        //     if (args.type) {
+        //         logoEl.classList.add(args.type)
+        //     }
+        //     this.requestEl.appendChild(logoEl)
+        // }
 
         if (args.content) {
             this.requestEl.appendChild(args.content)
@@ -340,10 +340,8 @@ export default class BrowserTransport implements LinkTransport {
         const linkA = this.createEl({
             tag: 'a',
             class: 'button',
-            href: crossDeviceUri,
-            text: `Open ${this.walletType.replace(/\b[a-z]/g, (letter) =>
-                letter.toUpperCase()
-            )} Wallet`,
+            href: sameDeviceUri,
+            text: `Open Wallet`,
         })
         linkEl.appendChild(linkA)
 
@@ -374,19 +372,17 @@ export default class BrowserTransport implements LinkTransport {
         const actionEl = this.createEl({class: 'actions'})
         actionEl.appendChild(backgroundEl)
 
-        if (isMobile() || this.walletType == 'anchor') {
+        // if (isMobile() || this.walletType == 'anchor') {
             actionEl.appendChild(divider)
             actionEl.appendChild(linkEl)
-        }
+        // }
 
         let footnote: HTMLElement = this.createEl({class: 'footnote'})
         const isIdentity = request.isIdentity()
         if (isIdentity) {
             footnote = this.createEl({
                 class: 'footnote',
-                text: `Don't have ${this.walletType.replace(/\b[a-z]/g, (letter) =>
-                    letter.toUpperCase()
-                )} Wallet? `,
+                text: `Don't have a wallet? `,
             })
             const footnoteLink = this.createEl({
                 tag: 'a',
@@ -646,13 +642,13 @@ export default class BrowserTransport implements LinkTransport {
             }
             return modified
         } catch (error) {
-            if (error[AbortPrepare]) {
+            if ((error as any)[AbortPrepare]) {
                 this.hide()
                 throw error
             } else {
                 // eslint-disable-next-line no-console
-                console.info(`Skipping resource provider: ${error.message || error}`)
-                if (error[SkipFee]) {
+                console.info(`Skipping resource provider: ${(error as any).message || error}`)
+                if ((error as any)[SkipFee]) {
                     const modified = request.clone()
                     modified.setInfoKey('no_fee', true, 'bool')
                     return modified
@@ -681,7 +677,7 @@ export default class BrowserTransport implements LinkTransport {
     }
 
     public onFailure(request: SigningRequest, error: Error) {
-        if (request === this.activeRequest && error['code'] !== 'E_CANCEL') {
+        if (request === this.activeRequest && (error as any)['code'] !== 'E_CANCEL') {
             this.clearTimers()
             if (this.requestStatus) {
                 let errorMessage: string
@@ -694,7 +690,7 @@ export default class BrowserTransport implements LinkTransport {
                         errorMessage = error.message
                     }
                 } else {
-                    errorMessage = error.message || String(error)
+                    errorMessage = (error as any).message || String(error)
                 }
                 this.showDialog({
                     title: 'Transaction Error',
