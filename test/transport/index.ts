@@ -8,7 +8,7 @@ import {
     LinkTransport,
     SessionError,
     SigningRequest,
-} from '@bloks/link'
+} from '@proton/link'
 
 import generateQr from './qrcode'
 

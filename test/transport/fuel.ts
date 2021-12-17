@@ -1,5 +1,5 @@
-import type {LinkSession} from '@bloks/link'
-import {PlaceholderName, Signature, SigningRequest} from '@bloks/link'
+import type {LinkSession} from '@proton/link'
+import {PlaceholderName, Signature, SigningRequest} from '@proton/link'
 
 async function apiCall(url: string, body?: any) {
     return (
