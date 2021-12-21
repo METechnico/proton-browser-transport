@@ -18,7 +18,7 @@ const styles : stylesInterface = {
 
 const styleSelector = (walletType: string) => {
 return (`
-/* Anchor Link Modal */
+/* Proton Link Modal */
 
 .%prefix% * {
     box-sizing: border-box;

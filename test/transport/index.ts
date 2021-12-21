@@ -736,7 +736,7 @@ function emptyElement(el: HTMLElement) {
     }
 }
 
-/** Generate a return url that Anchor will redirect back to w/o reload. */
+/** Generate a return url that Proton will redirect back to w/o reload. */
 function generateReturnUrl() {
     if (isChromeiOS()) {
         // google chrome on iOS will always open new tab so we just ask it to open again as a workaround
