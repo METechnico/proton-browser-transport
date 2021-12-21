@@ -1,4 +1,4 @@
-# Proton Link - Browser Transport [![Package Version](https://img.shields.io/npm/v/proton-browser-transport.svg?style=flat-square)](https://www.npmjs.com/package/proton-browser-transport) ![License](https://img.shields.io/npm/l/proton-browser-transport.svg?style=flat-square)
+# Proton Link - Browser Transport [![Package Version](https://img.shields.io/npm/v/@proton/browser-transport.svg?style=flat-square)](https://www.npmjs.com/package/@proton/browser-transport) ![License](https://img.shields.io/npm/l/@proton/browser-transport.svg?style=flat-square)
 
 A transport library for usage of [Proton Link](https://github.com/protonprotocol/proton-link) within a web browser environment.
 
