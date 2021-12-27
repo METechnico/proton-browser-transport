@@ -6,6 +6,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import typescript from '@rollup/plugin-typescript'
 import replace from '@rollup/plugin-replace'
 import {terser} from 'rollup-plugin-terser'
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 import pkg from './package.json'
 
@@ -70,6 +71,7 @@ export default [
             sourcemap: true,
         },
         plugins: [
+            nodePolyfills(),
             replaceVersion,
             resolve({extensions}),
             commonjs(),
